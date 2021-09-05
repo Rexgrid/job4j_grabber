@@ -18,3 +18,8 @@ notifications:
       - daervia@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
+    env:
+
+      global:
+
+        - CODECOV_TOKEN="f5dc39f0-06fe-46f2-b04b-5aaf4b461fa5"
