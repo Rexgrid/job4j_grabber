@@ -6,8 +6,9 @@ import java.util.Properties;
 public class Settings {
     private final Properties prop = new Properties();
 
-    public int getValues(String key) {
-        return Integer.parseInt(this.prop.getProperty(key));
+    public String getValues(String key) {
+        System.out.println(this.prop.getProperty(key));
+        return this.prop.getProperty(key);
     }
 
     public void load(InputStream input)  {
