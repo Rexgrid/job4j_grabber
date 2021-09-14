@@ -18,19 +18,19 @@ import static org.quartz.SimpleScheduleBuilder.*;
 public class AlertRabbit {
 
     private static Connection connection;
+    private static int interval;
 
     public static void main(String[] args) throws ClassNotFoundException {
-        try {
-            initConnection();
+        try (Connection con = initConnection()) {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDataMap data = new JobDataMap();
-            data.put("DateBase", connection);
+            data.put("DateBase", con);
             JobDetail job = newJob(Rabbit.class)
                     .usingJobData(data)
                     .build();
             SimpleScheduleBuilder times = simpleSchedule()
-                    .withIntervalInSeconds(readSettings())
+                    .withIntervalInSeconds(interval)
                     .repeatForever();
             Trigger trigger = newTrigger()
                     .startNow()
@@ -44,12 +44,6 @@ public class AlertRabbit {
         }
     }
 
-    public static int readSettings() {
-        Settings settings = getSettings();
-        return Integer.parseInt(settings.getValues("rabbit.interval"));
-    }
-
-
     private static Settings getSettings() {
         Settings settings = new Settings();
         ClassLoader cl = Settings.class.getClassLoader();
@@ -61,8 +55,9 @@ public class AlertRabbit {
         return settings;
     }
 
-    public static void initConnection()  {
+    public static Connection initConnection()  {
        Settings settings = getSettings();
+       interval = Integer.parseInt(settings.getValues("rabbit.interval"));
        try {
            Class.forName(settings.getValues("driver"));
            connection = DriverManager.getConnection(settings.getValues("url"),
@@ -71,6 +66,7 @@ public class AlertRabbit {
         } catch (Exception e) {
             e.printStackTrace();
         }
+       return connection;
     }
 
 
