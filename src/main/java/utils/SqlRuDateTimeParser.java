@@ -16,12 +16,12 @@ public class SqlRuDateTimeParser implements DateTimeParser {
     private  Calendar cal = Calendar.getInstance();
 
     private static final Map<String, String> MONTHS = Map.ofEntries(
-            Map.entry("0", "янв"), Map.entry("1", "фев"),
-            Map.entry("2", "мар"), Map.entry("3", "апр"),
-            Map.entry("4", "май"), Map.entry("5", "июнь"),
-            Map.entry("6", "июль"), Map.entry("7", "авг"),
-            Map.entry("8", "сент"), Map.entry("9", "окт"),
-            Map.entry("10", "ноя"), Map.entry("11", "дек"));
+            Map.entry("янв", "0"), Map.entry("фев", "1"),
+            Map.entry("мар", "2"), Map.entry("апр", "3"),
+            Map.entry("май", "4"), Map.entry("июнь", "5"),
+            Map.entry("июль", "6"), Map.entry("авг", "7"),
+            Map.entry("сент", "8"), Map.entry("окт", "9"),
+            Map.entry("ноя", "10"), Map.entry("дек", "11"));
 
 
 
@@ -51,11 +51,7 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         if (!split[0].contains("Сегодня") || !split[0].contains("Вчера")) {
             String[] mounthsName = split[0].split(" ");
             String mounth = mounthsName[1];
-            Optional<String> resultMounth = MONTHS.entrySet()
-                    .stream().filter(val -> mounth.equals(val.getValue()))
-                    .map(Map.Entry::getKey)
-                    .findFirst();
-            cal.set(Calendar.MONTH, Integer.parseInt(resultMounth.get()));
+            cal.set(Calendar.MONTH, Integer.parseInt(MONTHS.get(mounth)));
         }
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hoursMinutes[0].trim()));
         cal.set(Calendar.MINUTE, Integer.parseInt(hoursMinutes[1]));
