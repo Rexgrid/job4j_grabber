@@ -27,7 +27,7 @@ public class SqlRuDateTimeParser implements DateTimeParser {
 
     public static void main(String[] args) {
         SqlRuDateTimeParser sa = new SqlRuDateTimeParser();
-        String a = "12 май 21, 01:55";
+        String a = "Сегодня, 01:55";
         System.out.println(sa.parse(a));
     }
 
@@ -48,7 +48,7 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         LocalDateTime ldt;
         String[] split = parse.split(",");
         String[] hoursMinutes = split[1].split(":");
-        if (!split[0].contains("Сегодня") || !split[0].contains("Вчера")) {
+        if (!split[0].contains("Сегодня") && !split[0].contains("Вчера")) {
             String[] mounthsName = split[0].split(" ");
             String mounth = mounthsName[1];
             cal.set(Calendar.MONTH, Integer.parseInt(MONTHS.get(mounth)));
