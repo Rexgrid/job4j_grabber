@@ -19,22 +19,16 @@ public class Post {
         this.created = created;
     }
 
-
-    public static void main(String[] args) throws InterruptedException {
-        Post pt = new Post(1,"asd", "asd", "aaa", LocalDateTime.now());
-        Post pt1 = new Post(1,"asd", "asd", "aaa", LocalDateTime.now());
-        System.out.println(pt.equals(pt1));
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Post post = (Post) o;
-        return id == post.id &&
-                Objects.equals(title, post.title) &&
-                Objects.equals(link, post.link) &&
-                Objects.equals(description, post.description);
+        return id == post.id && Objects.equals(title, post.title) && Objects.equals(link, post.link) && Objects.equals(description, post.description);
     }
 
     @Override
@@ -44,12 +38,6 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Vacancy{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", link='" + link + '\'' +
-                ", description='" + description + '\'' +
-                ", created=" + created +
-                '}';
+        return "Vacancy{" + "id=" + id + ", title='" + title + '\'' + ", link='" + link + '\'' + ", description='" + description + '\'' + ", created=" + created + '}';
     }
 }
