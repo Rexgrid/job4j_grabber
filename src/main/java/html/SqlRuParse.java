@@ -18,7 +18,11 @@ public class SqlRuParse {
             Elements row = doc.select(".postslisttopic");
             for (Element td : row) {
                 Element parent = td.parent();
-                System.out.println(parent.child(5).text());
+                String vacancy = parent.child(1).child(0).attr("href")
+                        + System.lineSeparator() + parent.child(1).text()
+                        + System.lineSeparator() + parent.child(5).text()
+                        + System.lineSeparator();
+                System.out.println(vacancy);
             }
         }
 
