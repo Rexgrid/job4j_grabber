@@ -12,8 +12,8 @@ import java.util.*;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
 
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd', 'HH:mm");
-    private  Calendar cal = Calendar.getInstance();
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd', 'HH:mm");
+    private final Calendar cal = Calendar.getInstance();
 
     private static final Map<String, String> MONTHS = Map.ofEntries(
             Map.entry("янв", "0"), Map.entry("фев", "1"),
@@ -23,13 +23,6 @@ public class SqlRuDateTimeParser implements DateTimeParser {
             Map.entry("сент", "8"), Map.entry("окт", "9"),
             Map.entry("ноя", "10"), Map.entry("дек", "11"));
 
-
-
-    public static void main(String[] args) {
-        SqlRuDateTimeParser sa = new SqlRuDateTimeParser();
-        String a = "20 сент 21, 01:55";
-        System.out.println(sa.parse(a));
-    }
 
     @Override
     public LocalDateTime parse(String parse) {
@@ -52,14 +45,16 @@ public class SqlRuDateTimeParser implements DateTimeParser {
             String[] mounthsName = split[0].split(" ");
             String mounth = mounthsName[1];
             int day =  Integer.parseInt(mounthsName[0]);
-            int year = Integer.parseInt(mounthsName[2]);
+            int year = 2000 + Integer.parseInt(mounthsName[2]);
             cal.set(Calendar.MONTH, Integer.parseInt(MONTHS.get(mounth)));
             cal.set(Calendar.DAY_OF_MONTH, day);
             cal.set(Calendar.YEAR, year);
         }
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hoursMinutes[0].trim()));
         cal.set(Calendar.MINUTE, Integer.parseInt(hoursMinutes[1]));
+        System.out.println(cal.getTime());
         ldt = LocalDateTime.ofInstant(cal.toInstant(), cal.getTimeZone().toZoneId());
+        System.out.println(ldt);
         ldt = LocalDateTime.parse(ldt.format(dtf), dtf);
         return ldt;
     }
